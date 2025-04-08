@@ -34,31 +34,21 @@ class EmergencyRoom:
         self.wait_times = []
 
     def triage(self, patient_id):
-        if self.personnel.available_nurses > 0:
-            self.personnel.available_nurses -= 1
+        with self.personnel.nurses.request() as req:
+            yield req
             severity = random.randint(1, 5)
-            estimated_time = random.randint(10, 30)  # Simulación del tiempo estimado de atención
+            estimated_time = random.randint(10, 30)
             yield self.env.timeout(estimated_time)
-            self.personnel.available_nurses += 1
             return severity
-        else:
-            yield self.env.timeout(5)  # Espera a que una enfermera esté disponible
-            return self.env.process(self.triage(patient_id))
 
     def treatment(self, patient_id, severity):
-        if self.personnel.available_doctors > 0:
-            self.personnel.available_doctors -= 1
-            with self.personnel.doctors.request() as req:
-                yield req
-                with self.beds.beds.request() as bed_req:
-                    yield bed_req  # Espera a que haya una cama disponible
-                    yield self.env.timeout(random.randint(15, 30))
-                    self.wait_times.append(self.env.now)
-                    self.personnel.available_doctors += 1
-                    severity = 0  # El paciente es dado de alta y su severidad se reinicia
-        else:
-            yield self.env.timeout(5)  # Espera a que un doctor esté disponible
-            return self.env.process(self.treatment(patient_id, severity))
+        with self.personnel.doctors.request() as doc_req:
+            yield doc_req
+            with self.beds.beds.request() as bed_req:
+                yield bed_req  # Espera a que haya una cama disponible
+                yield self.env.timeout(random.randint(15, 30))
+                self.wait_times.append(self.env.now)
+                severity = 0  # El paciente es dado de alta y su severidad se reinicia
 
     def emergency_patient(self, patient_id):
         """Proceso para pacientes imprevistos con nivel de urgencia 1"""
@@ -78,8 +68,7 @@ class EmergencyRoom:
 
     def run_simulation(self, num_patients):
         for i in range(num_patients):
-            if self.personnel.available_nurses > 0 and self.personnel.available_doctors > 0:
-                self.env.process(self.patient_process(i))
+            self.env.process(self.patient_process(i))
             yield self.env.timeout(random.expovariate(1.0 / 5))
 
 def run_emergency_room_simulation(num_doctors, num_nurses, num_xray, num_ct, num_beds, num_or, num_patients):
