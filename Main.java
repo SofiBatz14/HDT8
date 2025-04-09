@@ -16,11 +16,11 @@ public class Main
             {
                 String linea = scanner.nextLine();
                 String[] partes = linea.split(",");
-                if (partes.lenght == 3)
+                if (partes.length == 3)
                 {
                     String nombre = partes[0].trim();
                     String sintoma = partes[1].trim();
-                    char prioridad = partes[2].trim().charAt(0);
+                    int prioridad = Integer.parseInt(partes[2].trim());
                     Paciente p = new Paciente(nombre, sintoma, prioridad);
                     colaPacientes.add(p);
                 }

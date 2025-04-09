@@ -2,9 +2,9 @@ public class Paciente implements Comparable<Paciente>
 {
     private String nombre;
     private String sintoma;
-    private char prioridad;
+    private int prioridad;
 
-    public Paciente(String nombre, String sintoma, char prioridad)
+    public Paciente(String nombre, String sintoma, int prioridad)
     {
         this.nombre = nombre;
         this.sintoma = sintoma;
@@ -29,19 +29,18 @@ public class Paciente implements Comparable<Paciente>
         this.sintoma = sintoma;
     }
 
-    public char getPrioridad()
+    public int getPrioridad()
     {
         return prioridad;
     }
-    public void setPrioridad(char prioridad)
+    public void setPrioridad(int prioridad)
     {
         this.prioridad = prioridad;
     }
 
     @Override
-    public int compareTo(Paciente otro)
-    {
-        return Character.compare(this.prioridad, otro.prioridad);
+    public int compareTo(Paciente otro) {
+        return Integer.compare(this.prioridad, otro.prioridad); // menor número = mayor prioridad
     }
 
     @Override
