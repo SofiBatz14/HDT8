@@ -1,0 +1,11 @@
+Nombre, síntoma, prioridad
+Juan Perez, fractura de pierna, 3
+Maria Ramirez, apendicitis, 1
+Lorenzo Toledo, chikunguya, 5
+Carmen Sarmientos, dolores de parto, 2
+Esteban Gómez, dolor de cabeza, 4
+Lucía Martínez, ataque cardíaco, 1
+Roberto Díaz, fiebre alta, 2
+Sofía Méndez, dolor abdominal, 3
+Ana López, sangrado nasal, 4
+Carlos Ruiz, convulsiones, 1
