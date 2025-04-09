@@ -1,4 +1,3 @@
-Nombre, síntoma, prioridad
 Juan Perez, fractura de pierna, 3
 Maria Ramirez, apendicitis, 1
 Lorenzo Toledo, chikunguya, 5

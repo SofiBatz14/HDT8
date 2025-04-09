@@ -19,9 +19,16 @@ public class VectorHeap<E extends Comparable<E>>
     {
         if (data.isEmpty()) return null;
         E minVal = data.get(0);
-        data.set(0, data.get(data.size() - 1));
-        data.remove(data.size() - 1);
-        percolateDown(0);
+        if (data.size() == 1)
+        {
+            data.remove(0);
+        }
+        else
+        {
+            data.set(0, data.get(data.size() - 1));
+            data.remove(data.size() - 1);
+            percolateDown(0);
+        }
         return minVal;
     }
 
